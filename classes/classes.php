@@ -1,5 +1,89 @@
 <?php
 require_once 'interfaces/Controlador.php';
+class Luta{
+    //Atributos
+    private $desafiado;
+    private $desafiante;
+    private $rounds;
+    private $aprovada;
+    //Métodos Publicos
+    public function marcarLuta($l1, $l2){
+        if($l1->getCategoria() == $l2->getCategoria() && ($l1 != $l2)){
+            $this->aprovada= true;
+            $this->desafiado=$l1;
+            $this->desafiante=$l2;
+        }else{
+            $this->aprovada= false;
+            $this->desafiado= null;
+            $this->desafiante= null;
+        }
+    }
+    public function lutar(){
+        if($this->aprovada){
+            $this->desafiante->apresentar();
+            $this->desafiado->apresentar();
+            $vencedor = rand(0,2); //número randomico de 0 a 2;
+            switch ($vencedor){
+                case 0://empate
+                    echo"<h3>Empate</h3>";
+                    $this->desafiado->empatarluta();
+                    $this->desafiante->empatarluta();
+                    break;
+                case 1: //desafiado vence
+                    echo"<h3> Desafiado Venceu </h3>";
+                    $this->desafiado->ganharluta();
+                    $this->desafiante->perderluta();
+                    break;
+                case 2:
+                    echo"<h3> Desafiante Venceu </h3>";
+                    $this->desafiado->perderluta();
+                    $this->desafiante->ganhaluta();
+                    break;
+
+            }
+        }
+    }
+
+    /**
+     * Métodos Especiais
+     */
+    public function getDesafiado()
+    {
+        return $this->desafiado;
+    }
+
+    public function setDesafiado($desafiado)
+    {
+        $this->desafiado = $desafiado;
+    }
+    public function getDesafiante()
+    {
+        return $this->desafiante;
+    }
+    public function setDesafiante($desafiante)
+    {
+        $this->desafiante = $desafiante;
+    }
+    public function getRounds()
+    {
+        return $this->rounds;
+    }
+    public function setRounds($rounds)
+    {
+        $this->rounds = $rounds;
+    }
+
+    public function getAprovada()
+    {
+        return $this->aprovada;
+    }
+    public function setAprovada($aprovada)
+    {
+        $this->aprovada = $aprovada;
+    }
+
+
+}
 class Lutador{ //objetos composto
     //Stributos
     private $nome;
@@ -306,3 +390,4 @@ class Caneta{ //class simples
         $this->tampada=false;
     }
 }
+
